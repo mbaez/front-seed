@@ -146,7 +146,7 @@ module.exports = function (grunt) {
             }
         },
         watch: {
-            mimundo: {
+            main: {
                 options: {
                     livereload: true
                 },
