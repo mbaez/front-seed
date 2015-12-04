@@ -1,0 +1,19 @@
+{
+    "name": "FrontSeed",
+    "version": "0.0.0",
+    "authors": ["Maximiliano Báez González <maxibaezpy@gmail>"],
+    "description": "Frontend seed project",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+      ],
+    "dependencies": {
+        "jquery": "*",
+        "jquery-ui": "*",
+        "fontawesome": "*",
+        "bootstrap-sass": "*"
+    }
+}
