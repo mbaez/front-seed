@@ -103,7 +103,7 @@ module.exports = function (grunt) {
                 'src/vendors/jquery/dist/jquery.min.js',
                 'src/vendors/jquery-ui/jquery-ui.min.js',
                 'src/vendors/bootstrap-sass/assets/javascripts/bootstrap.min.js',
-                'src/js/app.js'
+                'dist/js/app.js'
                 ],
                 dest: 'dist/libs/app.min.js'
             }
