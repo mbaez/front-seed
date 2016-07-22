@@ -114,7 +114,7 @@ module.exports = function (grunt) {
                 dirList: ['dist/js']
             }
         },
-        
+
         'string-replace': {
             inline: {
                 files: {
@@ -146,16 +146,45 @@ module.exports = function (grunt) {
             }
         },
         watch: {
-            main: {
+            img: {
                 options: {
                     livereload: true
                 },
-                files: ['src/**/*'],
-                tasks: ['default']
+                files: ['src/**/*.png',
+                        'src/**/*.jpg',
+                        'src/**/*.gif',
+                        'src/**/*.eot',
+                        'src/**/*.svg',
+                        'src/**/*.ttf',
+                        'src/**/*.woff',
+                        'src/**/*.woff2'
+                    ],
+                tasks: ['copy']
+            },
+            html: {
+                options: {
+                    livereload: true
+                },
+                files: ['src/*.html', 'src/**/*.html'],
+                tasks: ['copy']
+            },
+            js: {
+                options: {
+                    livereload: true
+                },
+                files: ['src/**/*.js'],
+                tasks: ['uglify', 'string-replace', 'concat']
+            },
+            sass: {
+                options: {
+                    livereload: true
+                },
+                files: ['src/**/*.scss'],
+                tasks: ['copy', 'sass']
             }
-        },
     });
-    
+
     grunt.registerTask('default', ['uglify', 'sass', "copy", 'string-replace', 'concat', 'remove', 'usebanner']);
     grunt.registerTask('server', ['default', 'configureProxies:server', "open", 'connect:server', 'watch']);
+    grunt.registerTask('serve', ['server']);
 };
