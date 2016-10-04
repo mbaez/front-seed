@@ -15,9 +15,9 @@ Seed Project for the development of front-end javascript applications using bowe
 * [Watch](https://github.com/gruntjs/grunt-contrib-watch): Run tasks whenever watched files change.
 
 
-##Usage
+## Usage
 
-###Instal Dependecies
+### Instal Dependecies
 First install all node modules
 
 ```sh
@@ -28,9 +28,9 @@ and then download all the 3rd party library with bower
 ```sh
 $ bower install
 ```
-the 3rd party library should be in `src/vendors`. 
+the 3rd party library should be in `src/vendors`.
 
-###Run
+### Run
 To compile and start the application in livereload mode :
 
 ```sh
@@ -39,12 +39,12 @@ $ grunt server
 If you only want to compile the application
 
 ```sh
-$ grunt 
+$ grunt
 ```
 
 The compiled application code is in `dist`
 
-##Want to contribute?
+## Want to contribute?
 
 If you've found a bug or have a great idea for new feature let me know by [adding your suggestion]
 (http://github.com/mbaez/front-seed/issues/new) to [issues list](https://github.com/mbaez/front-seed/issues).

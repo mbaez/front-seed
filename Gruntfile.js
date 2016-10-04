@@ -182,6 +182,7 @@ module.exports = function (grunt) {
                 files: ['src/**/*.scss'],
                 tasks: ['copy', 'sass']
             }
+        }
     });
 
     grunt.registerTask('default', ['uglify', 'sass', "copy", 'string-replace', 'concat', 'remove', 'usebanner']);
