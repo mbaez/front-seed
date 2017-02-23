@@ -1,5 +1,7 @@
 /**
- *Minimize del frontend
+ * Seed Project for the development of front-end javascript applications using bower and grunt. 
+ * The project is pre-configured with the following grunt modules:
+ * 
  * 1) connect
  * 2) open
  * 3) sass
@@ -11,24 +13,37 @@
  * 9) usebanner
  * 10) watch
  */
-
 module.exports = function (grunt) {
     require("matchdep").filterDev("grunt-*").forEach(grunt.loadNpmTasks);
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        app: {
+            dist: "dist",
+            src: "src",
+            host: "0.0.0.0",
+            port: "8888"
+        },
+
+        /**
+         * Connect is a static web server for development.
+         */
         connect: {
             server: {
                 options: {
-                    hostname: '0.0.0.0',
-                    port: 8888,
-                    base: "dist",
+                    hostname: '<%=app.host%>',
+                    port: '<%=app.port%>',
+                    base: "<%=app.dist%>",
                     livereload: true,
                     middleware: function (connect, options, defaultMiddleware) {
                         var proxy = require('grunt-connect-proxy/lib/utils').proxyRequest;
                         return [proxy].concat(defaultMiddleware);
                     }
                 },
+                /**
+                 * Grunt Connect support for proxying API calls during development.
+                 * Create a proxy between the application and a REST api to prevent CORS.
+                 */
                 proxies: [{
                     context: '/app/rest',
                     host: "192.168.10.1",
@@ -36,11 +51,19 @@ module.exports = function (grunt) {
                 }]
             }
         },
+
+        /**
+         * Open urls and files from a grunt task.
+         */
         open: {
             all: {
-                path: 'http://localhost:8888'
+                path: 'http://<%=app.host%>:<%=app.port%>'
             }
         },
+
+        /**
+         *  Compile Sass to CSS.
+         */
         sass: {
             dist: {
                 options: {
@@ -48,36 +71,44 @@ module.exports = function (grunt) {
                     sourcemap: false
                 },
                 files: {
-                    'dist/css/main.css': 'src/scss/main.scss'
+                    '<%=app.dist%>/css/main.css': '<%=app.src%>/scss/main.scss'
                 }
             }
         },
+
+        /**
+         * Copy static files and folders to the static web server document root.
+         */
         copy: {
             main: {
                 files: [{
-                        cwd: 'src/vendors/bootstrap-sass/assets/fonts',
+                        cwd: '<%=app.src%>/vendors/bootstrap-sass/assets/fonts',
                         src: '**/*',
-                        dest: 'dist/fonts',
+                        dest: '<%=app.dist%>/fonts',
                         expand: true
                     }, {
-                        cwd: 'src/vendors/fontawesome/fonts',
+                        cwd: '<%=app.src%>/vendors/fontawesome/fonts',
                         src: '**/*',
-                        dest: 'dist/fonts',
+                        dest: '<%=app.dist%>/fonts',
                         expand: true
                     }, {
-                        cwd: 'src/images',
+                        cwd: '<%=app.src%>/images',
                         src: '**/*',
-                        dest: 'dist/images',
+                        dest: '<%=app.dist%>/images',
                         expand: true
                     }, {
-                        cwd: 'src/',
+                        cwd: '<%=app.src%>/',
                         src: '*.html',
-                        dest: 'dist/',
+                        dest: '<%=app.dist%>/',
                         expand: true
                     }
                 ]
             }
         },
+
+        /**
+         * Minify files with UglifyJS.
+         */
         uglify: {
             options: {
                 mangle: false,
@@ -86,78 +117,99 @@ module.exports = function (grunt) {
             build: {
                 files: [{
                     expand: true,
-                    cwd: 'src/js',
+                    cwd: '<%=app.src%>/js',
                     src: '**/*js',
-                    dest: 'dist/js',
+                    dest: '<%=app.dist%>/js',
                     ext: '.js',
                     extDot: 'last'
                 }]
             }
         },
+
+        /**
+         * Concatenate files.
+         */
         concat: {
             options: {
-                separator: '\n'
+                separator: ';'
             },
             libs: {
                 src: [
-                'src/vendors/jquery/dist/jquery.min.js',
-                'src/vendors/jquery-ui/jquery-ui.min.js',
-                'src/vendors/bootstrap-sass/assets/javascripts/bootstrap.min.js',
-                'dist/js/app.js'
+                //vendors js
+                '<%=app.src%>/vendors/jquery/<%=app.dist%>/jquery.min.js',
+                '<%=app.src%>/vendors/jquery-ui/jquery-ui.min.js',
+                '<%=app.src%>/vendors/bootstrap-sass/assets/javascripts/bootstrap.min.js',
+                //app scripts
+                '<%=app.dist%>/js/app.js'
                 ],
-                dest: 'dist/libs/app.min.js'
-            }
-        },
-        remove: {
-            default_options: {
-                trace: true,
-                dirList: ['dist/js']
+                dest: '<%=app.dist%>/libs/app.min.js'
             }
         },
 
+        /**
+         * Remove directory and files.
+         */
+        remove: {
+            default_options: {
+                trace: true,
+                dirList: ['<%=app.dist%>/js']
+            }
+        },
+
+        /**
+         * Replace strings on files by using string or regex patters.
+         */
         'string-replace': {
             inline: {
                 files: {
-                    'dist/': ['dist/*.html', 'dist/libs/*.js', 'dist/css/*.css'],
+                    '<%=app.dist%>/': ['<%=app.dist%>/*.html', '<%=app.dist%>/libs/*.js', '<%=app.dist%>/css/*.css'],
                 },
                 options: {
                     replacements: [{
                         pattern: /{{VERSION}}/g,
-                        replacement: '<%= pkg.version %>'
+                        replacement: '<%=pkg.version%>'
                     }]
                 }
             }
         },
+
+        /**
+         * Adds a simple banner to files.
+         */
         usebanner: {
             taskName: {
                 options: {
                     position: 'top',
                     banner: '/*!\n' +
-                        '  * <%= pkg.name %> : <%= pkg.description %>\n' +
-                        '  * @version <%= pkg.version %>\n' +
-                        '  * @author <%= pkg.author %>\n' +
-                        '  * @date <%= grunt.template.today("yyyy-mm-dd") %>\n' +
+                        '  * <%=pkg.name%> : <%=pkg.description%>\n' +
+                        '  * @version <%=pkg.version%>\n' +
+                        '  * @author <%=pkg.author%>\n' +
+                        '  * @date <%=grunt.template.today("yyyy-mm-dd")%>\n' +
                         '  */\n',
                     linebreak: true
                 },
                 files: {
-                    src: ['dist/**/*.js']
+                    src: ['<%=app.dist%>/**/*.js']
                 }
             }
         },
+
+        /**
+         * Run tasks whenever watched files change.
+         */
         watch: {
             img: {
                 options: {
                     livereload: true
                 },
-                files: ['src/**/*.png',
-                        'src/**/*.jpg',
-                        'src/**/*.gif',
-                        'src/**/*.eot',
-                        'src/**/*.svg',
-                        'src/**/*.ttf',
-                        'src/**/*.woff',
-                        'src/**/*.woff2'
+                files: ['<%=app.src%>/**/*.png',
+                        '<%=app.src%>/**/*.jpg',
+                        '<%=app.src%>/**/*.gif',
+                        '<%=app.src%>/**/*.eot',
+                        '<%=app.src%>/**/*.svg',
+                        '<%=app.src%>/**/*.ttf',
+                        '<%=app.src%>/**/*.woff',
+                        '<%=app.src%>/**/*.woff2'
                     ],
                 tasks: ['copy']
             },
@@ -165,21 +217,21 @@ module.exports = function (grunt) {
                 options: {
                     livereload: true
                 },
-                files: ['src/*.html', 'src/**/*.html'],
+                files: ['<%=app.src%>/*.html', '<%=app.src%>/**/*.html'],
                 tasks: ['copy']
             },
             js: {
                 options: {
                     livereload: true
                 },
-                files: ['src/**/*.js'],
+                files: ['<%=app.src%>/**/*.js'],
                 tasks: ['uglify', 'string-replace', 'concat']
             },
             sass: {
                 options: {
                     livereload: true
                 },
-                files: ['src/**/*.scss'],
+                files: ['<%=app.src%>/**/*.scss'],
                 tasks: ['copy', 'sass']
             }
         }
