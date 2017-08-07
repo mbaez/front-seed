@@ -46,5 +46,4 @@ The compiled application code is in `dist`
 
 ## Want to contribute?
 
-If you've found a bug or have a great idea for new feature let me know by [adding your suggestion]
-(http://github.com/mbaez/front-seed/issues/new) to [issues list](https://github.com/mbaez/front-seed/issues).
+If you've found a bug or have a great idea for new feature let me know by [adding your suggestion](http://github.com/mbaez/front-seed/issues/new) to [issues list](https://github.com/mbaez/front-seed/issues).
