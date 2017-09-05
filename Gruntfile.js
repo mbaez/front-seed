@@ -1,7 +1,7 @@
 /**
- * Seed Project for the development of front-end javascript applications using bower and grunt. 
+ * Seed Project for the development of front-end javascript applications using bower and grunt.
  * The project is pre-configured with the following grunt modules:
- * 
+ *
  * 1) connect
  * 2) open
  * 3) sass
@@ -22,7 +22,9 @@ module.exports = function (grunt) {
             dist: "dist",
             src: "src",
             host: "0.0.0.0",
-            port: "8888"
+            port: "8888",
+            apiPort: 8080,
+            livePort:12345
         },
 
         /**
@@ -34,10 +36,11 @@ module.exports = function (grunt) {
                     hostname: '<%=app.host%>',
                     port: '<%=app.port%>',
                     base: "<%=app.dist%>",
-                    livereload: true,
+                    livereload: '<%=app.livePort%>',
                     middleware: function (connect, options, defaultMiddleware) {
                         var proxy = require('grunt-connect-proxy/lib/utils').proxyRequest;
-                        return [proxy].concat(defaultMiddleware);
+                        var marray = [proxy];
+                        return marray.concat(defaultMiddleware);
                     }
                 },
                 /**
@@ -45,9 +48,9 @@ module.exports = function (grunt) {
                  * Create a proxy between the application and a REST api to prevent CORS.
                  */
                 proxies: [{
-                    context: '/app/rest',
-                    host: "192.168.10.1",
-                    port: 8080,
+                    context: '/api',
+                    host: '<%=app.host%>',
+                    port: '<%=app.apiPort%>'
                 }]
             }
         },
@@ -100,6 +103,11 @@ module.exports = function (grunt) {
                         cwd: '<%=app.src%>/',
                         src: '*.html',
                         dest: '<%=app.dist%>/',
+                        expand: true
+                    }, {
+                        cwd: '<%=app.src%>/data',
+                        src: '**/*',
+                        dest: '<%=app.dist%>/data',
                         expand: true
                     }
                 ]
@@ -200,7 +208,7 @@ module.exports = function (grunt) {
         watch: {
             img: {
                 options: {
-                    livereload: true
+                    livereload: '<%=app.livePort%>',
                 },
                 files: ['<%=app.src%>/**/*.png',
                         '<%=app.src%>/**/*.jpg',
@@ -215,29 +223,54 @@ module.exports = function (grunt) {
             },
             html: {
                 options: {
-                    livereload: true
+                    livereload: '<%=app.livePort%>'
                 },
                 files: ['<%=app.src%>/*.html', '<%=app.src%>/**/*.html'],
                 tasks: ['copy']
             },
             js: {
                 options: {
-                    livereload: true
+                    livereload: '<%=app.livePort%>'
                 },
                 files: ['<%=app.src%>/**/*.js'],
                 tasks: ['uglify', 'string-replace', 'concat']
             },
             sass: {
                 options: {
-                    livereload: true
+                    livereload: '<%=app.livePort%>'
                 },
                 files: ['<%=app.src%>/**/*.scss'],
                 tasks: ['copy', 'sass']
             }
+        },
+
+        json_server: {
+              options: {
+                keepalive: true,
+                port: '<%=app.apiPort%>',
+                hostname: '<%=app.host%>',
+                db: './src/data/json-server-db.json',
+                routes: './src/data/json-server-routes.json'
+            }
+        },
+
+         /*
+         * Run some tasks in parallel to speed up build process
+         */
+        concurrent: {
+            server: {
+                tasks: ['json_server'],
+                options: {
+                    logConcurrentOutput: true
+                }
+            }
         }
+
     });
 
     grunt.registerTask('default', ['uglify', 'sass', "copy", 'string-replace', 'concat', 'remove', 'usebanner']);
     grunt.registerTask('server', ['default', 'configureProxies:server', "open", 'connect:server', 'watch']);
     grunt.registerTask('serve', ['server']);
+
+    grunt.registerTask('develop', ['default', 'configureProxies:server', "open", 'connect:server', 'concurrent:server']);
 };
