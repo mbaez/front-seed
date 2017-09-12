@@ -259,7 +259,7 @@ module.exports = function (grunt) {
          */
         concurrent: {
             server: {
-                tasks: ['json_server'],
+                tasks: ['json_server', 'watch'],
                 options: {
                     logConcurrentOutput: true
                 }
