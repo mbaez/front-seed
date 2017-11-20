@@ -21,8 +21,8 @@ Seed Project (Kick Ass Project) for the development of front-end javascript appl
 First install all the tools
 
 ```sh
-$ npm -g yarn
-$ npm -g grunt
+$ npm install -g yarn
+$ npm install -g grunt-cli
 ```
 
 and then download all the 3rd party library and tools with yarn
