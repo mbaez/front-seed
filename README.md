@@ -1,6 +1,6 @@
 # Front-Seed
 
-Seed Project for the development of front-end javascript applications using bower and grunt. The project is pre-configured with the following grunt modules:
+Seed Project (Kick Ass Project) for the development of front-end javascript applications using yarn and grunt. The project is pre-configured with the following grunt modules:
 
 * [Connect](https://github.com/gruntjs/grunt-contrib-connect): Static web server.
 * [Proxy](https://github.com/drewzboto/grunt-connect-proxy): Grunt Connect support for proxying API calls during development.
@@ -18,23 +18,25 @@ Seed Project for the development of front-end javascript applications using bowe
 ## Usage
 
 ### Instal Dependecies
-First install all node modules
+First install all the tools
 
 ```sh
-$ npm install
+$ npm -g yarn
+$ npm -g grunt
 ```
-and then download all the 3rd party library with bower
+
+and then download all the 3rd party library and tools with yarn
 
 ```sh
-$ bower install
+$ yarn install
 ```
-the 3rd party library should be in `src/vendors`.
+the 3rd party library and dev tools should be in `node_modules`.
 
 ### Run
 To compile and start the application in livereload mode :
 
 ```sh
-$ grunt server
+$ grunt serve
 ```
 If you only want to compile the application
 

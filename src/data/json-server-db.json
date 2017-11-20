@@ -1,15 +1,64 @@
 {
   "posts": [
-    { "id": 1, "title": "json-server", "author": "typicode" },
-    { "id": 2, "title": "json-server2", "author": "typicode" },
-    { "id": 3, "title": "json-server3", "author": "typicode" },
-    { "id": 4, "title": "json-server4", "author": "typicode" },
-    { "id": 5, "title": "json-server5", "author": "typicode" },
-    { "id": 6, "title": "json-server6", "author": "typicode" },
-    { "id": 7, "title": "json-server7", "author": "typicode" }
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    },
+    {
+      "id": 2,
+      "title": "json-server2",
+      "author": "typicode"
+    },
+    {
+      "id": 3,
+      "title": "json-server3",
+      "author": "typicode"
+    },
+    {
+      "id": 4,
+      "title": "json-server4",
+      "author": "typicode"
+    },
+    {
+      "id": 5,
+      "title": "json-server5",
+      "author": "typicode"
+    },
+    {
+      "id": 6,
+      "title": "json-server6",
+      "author": "typicode"
+    },
+    {
+      "id": 7,
+      "title": "json-server7",
+      "author": "typicode"
+    },
+    {
+      "title": "test",
+      "author": "mbaez",
+      "id": 10
+    },
+    {
+      "title": "test2",
+      "author": "mbaez",
+      "id": 11
+    },
+    {
+      "title": "test4",
+      "author": "mbaez",
+      "id": 12
+    }
   ],
   "comments": [
-    { "id": 1, "body": "some comment", "postId": 1 }
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
   ],
-  "profile": { "name": "typicode" }
+  "profile": {
+    "name": "typicode"
+  }
 }

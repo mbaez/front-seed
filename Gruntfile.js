@@ -24,7 +24,8 @@ module.exports = function (grunt) {
             host: "0.0.0.0",
             port: "8888",
             apiPort: 8080,
-            livePort:12345
+            livePort: 12345,
+            vendor: 'node_modules'
         },
 
         /**
@@ -85,12 +86,12 @@ module.exports = function (grunt) {
         copy: {
             main: {
                 files: [{
-                        cwd: '<%=app.src%>/vendors/bootstrap-sass/assets/fonts',
+                        cwd: '<%=app.vendors%>/bootstrap-sass/assets/fonts',
                         src: '**/*',
                         dest: '<%=app.dist%>/fonts',
                         expand: true
                     }, {
-                        cwd: '<%=app.src%>/vendors/fontawesome/fonts',
+                        cwd: '<%=app.vendors%>/fontawesome/fonts',
                         src: '**/*',
                         dest: '<%=app.dist%>/fonts',
                         expand: true
@@ -144,9 +145,9 @@ module.exports = function (grunt) {
             libs: {
                 src: [
                 //vendors js
-                '<%=app.src%>/vendors/jquery/<%=app.dist%>/jquery.min.js',
-                '<%=app.src%>/vendors/jquery-ui/jquery-ui.min.js',
-                '<%=app.src%>/vendors/bootstrap-sass/assets/javascripts/bootstrap.min.js',
+                '<%=app.vendors%>/jquery/dist/jquery.min.js',
+                '<%=app.vendors%>/jquery-ui/jquery-ui.min.js',
+                '<%=app.vendors%>/bootstrap-sass/assets/javascripts/bootstrap.min.js',
                 //app scripts
                 '<%=app.dist%>/js/app.js'
                 ],
@@ -245,7 +246,7 @@ module.exports = function (grunt) {
         },
 
         json_server: {
-              options: {
+            options: {
                 keepalive: true,
                 port: '<%=app.apiPort%>',
                 hostname: '<%=app.host%>',
@@ -254,7 +255,7 @@ module.exports = function (grunt) {
             }
         },
 
-         /*
+        /*
          * Run some tasks in parallel to speed up build process
          */
         concurrent: {

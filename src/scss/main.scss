@@ -1,9 +1,9 @@
 // ESTILOS EXTERNOS
-@import "../vendors/fontawesome/scss/font-awesome";
-@import "../vendors/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "../../node_modules/font-awesome/scss/font-awesome";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 //
 $footer_bg:#31708f;
-.body{
+.body {
     height: 450px
 }
 .footer {
